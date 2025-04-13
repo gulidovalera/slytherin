@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Моя страница с Яндекс.Метрикой</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .metrics {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Добро пожаловать на мою страницу!</h1>
+    <p>Эта страница интегрирована с Яндекс.Метрикой.</p>
     
+    <div class="metrics">
+        <h2>Статистика посещений</h2>
+        <div id="counter">
+            <p>Загрузка данных...</p>
+        </div>
+    </div>
+
+    <script src="yandex-metrica.js"></script>
 </body>
 </html>
