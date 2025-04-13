@@ -3,122 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Распределяющая Шляпа</title>
+    <title>Распределяющая Шляпа - Hogwarts</title>
     <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            background-color: black;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:wght@500&display=swap');
+        
+        :root {
+            --gryffindor-red: #740001;
+            --gryffindor-gold: #d3a625;
+            --slytherin-green: #1a472a;
+            --slytherin-silver: #aaaaaa;
+            --hufflepuff-yellow: #ecb939;
+            --hufflepuff-black: #000000;
+            --ravenclaw-blue: #0e1a40;
+            --ravenclaw-bronze: #946b2d;
         }
         
-        #stars-container {
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #000;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: url('https://images.unsplash.com/photo-1601662528567-526cd06f6582?q=80&w=1915');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        #old-paper-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png');
+            opacity: 0.15;
+            pointer-events: none;
             z-index: -1;
         }
         
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
+        #candle-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 200, 150, 0.1), rgba(0, 0, 0, 0.8));
+            pointer-events: none;
+            z-index: -1;
+            animation: flicker 5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; }
+            25% { opacity: 0.7; }
+            50% { opacity: 0.9; }
+            75% { opacity: 0.6; }
+        }
+        
+        #main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
         }
         
         #title {
-            color: gold;
-            font-size: 28px;
-            font-weight: bold;
+            font-family: 'Cinzel Decorative', cursive;
+            color: var(--gryffindor-gold);
+            text-align: center;
+            font-size: 2.5rem;
             margin: 20px 0;
+            text-shadow: 0 0 10px rgba(211, 166, 37, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        #hat-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            perspective: 1000px;
         }
         
         #hat {
-            font-size: 100px;
-            margin: 20px 0;
-            color: gold;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/0jQ5X0n/sorting-hat.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+        
+        #hat:hover {
+            transform: rotateY(15deg);
+            cursor: pointer;
+        }
+        
+        #hat.talking {
+            animation: hatTalk 0.5s infinite alternate;
+        }
+        
+        @keyframes hatTalk {
+            0% { transform: translateY(0) rotateY(0); }
+            100% { transform: translateY(-5px) rotateY(5deg); }
+        }
+        
+        #question-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--gryffindor-gold);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 0 15px rgba(211, 166, 37, 0.3);
+        }
+        
+        #question-container::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: var(--gryffindor-gold);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
         
         #question {
-            font-size: 20px;
-            margin: 30px auto;
-            max-width: 800px;
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        #options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 30px 0;
         }
         
         .option-btn {
-            background-color: #222222;
-            color: white;
-            border: 3px ridge #444;
-            padding: 10px 20px;
-            margin: 10px auto;
-            font-size: 16px;
+            background-color: rgba(20, 20, 20, 0.8);
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-family: 'Cormorant Garamond', serif;
             cursor: pointer;
-            display: block;
-            width: 80%;
-            max-width: 600px;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
         }
         
         .option-btn:hover {
-            background-color: #333333;
+            background-color: rgba(40, 40, 40, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .option-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .option-btn:hover::before {
+            left: 100%;
         }
         
         #progress {
-            color: silver;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--slytherin-silver);
             margin: 20px 0;
         }
         
-        #result {
-            margin: 30px auto;
-            padding: 20px;
-            max-width: 700px;
-            font-size: 24px;
+        #result-container {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            animation: fadeIn 1s;
+            border: 1px solid;
+            box-shadow: 0 0 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #result-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px;
+        }
+        
+        #house-crest {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         
         #house-info {
-            margin: 20px auto;
-            padding: 15px;
-            max-width: 600px;
-            font-size: 18px;
-            line-height: 1.6;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .house-points {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold;
         }
         
         #restart-btn {
-            background-color: #333333;
-            color: white;
+            background-color: var(--gryffindor-red);
+            color: var(--gryffindor-gold);
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-family: 'Cinzel Decorative', cursive;
             cursor: pointer;
-            margin: 20px auto;
+            border-radius: 5px;
+            transition: all 0.3s;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+        
+        #restart-btn:hover {
+            background-color: var(--gryffindor-gold);
+            color: var(--gryffindor-red);
+            transform: scale(1.05);
+        }
+        
+        .sparks {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: gold;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            #main-container {
+                padding: 10px;
+            }
+            
+            #title {
+                font-size: 1.8rem;
+            }
+            
+            #hat-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            #question {
+                font-size: 1.1rem;
+            }
+            
+            .option-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="stars-container"></div>
+    <div id="old-paper-overlay"></div>
+    <div id="candle-light"></div>
     
-    <h1 id="title">РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА</h1>
-    
-    <div id="hat">🎩</div>
-    
-    <div id="question"></div>
-    
-    <div id="options-container">
-        <button class="option-btn" onclick="answerQuestion(0)"></button>
-        <button class="option-btn" onclick="answerQuestion(1)"></button>
-        <button class="option-btn" onclick="answerQuestion(2)"></button>
-        <button class="option-btn" onclick="answerQuestion(3)"></button>
+    <div id="main-container">
+        <h1 id="title">РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА</h1>
+        
+        <div id="hat-container">
+            <div id="hat"></div>
+        </div>
+        
+        <div id="question-container">
+            <p id="question"></p>
+        </div>
+        
+        <div id="options-container">
+            <button class="option-btn" onclick="answerQuestion(0)"></button>
+            <button class="option-btn" onclick="answerQuestion(1)"></button>
+            <button class="option-btn" onclick="answerQuestion(2)"></button>
+            <button class="option-btn" onclick="answerQuestion(3)"></button>
+        </div>
+        
+        <div id="progress"></div>
+        
+        <div id="result-container">
+            <div id="house-crest"></div>
+            <h2 id="result-title"></h2>
+            <div id="house-info"></div>
+            <div id="points-display"></div>
+            <button id="restart-btn" onclick="restart()">Попробовать снова</button>
+        </div>
     </div>
-    
-    <div id="progress"></div>
-    
-    <div id="result" style="display: none;"></div>
-    <div id="house-info" style="display: none;"></div>
-    <button id="restart-btn" style="display: none;" onclick="restart()">Пройти тест заново</button>
 
     <script>
         // Данные теста
@@ -149,65 +355,64 @@
         ];
         
         const houses = {
-            "Гриффиндор": { points: 0, color: "#ae0001", animal: "🦁" },
-            "Слизерин": { points: 0, color: "#2a623d", animal: "🐍" },
-            "Пуффендуй": { points: 0, color: "#ffdb00", animal: "🦡" },
-            "Когтевран": { points: 0, color: "#89CFF0", animal: "🦅" }
-        };
-        
-        const houseInfo = {
-            "Гриффиндор": {
+            "Гриффиндор": { 
+                points: 0, 
+                color: "#ae0001", 
+                secondaryColor: "#d3a625",
+                animal: "🦁",
+                crest: "https://i.ibb.co/0jQ5X0n/gryffindor-crest.png",
                 founder: "Годрик Гриффиндор",
                 ghost: "Почти Безголовый Ник",
                 colors: "алый и золотой",
-                traits: "храбрость, благородство, честь"
+                traits: "храбрость, благородство, честь",
+                quote: "Там, где смелые и отважные, всегда найдётся место для гриффиндорца!"
             },
-            "Слизерин": {
+            "Слизерин": { 
+                points: 0, 
+                color: "#2a623d", 
+                secondaryColor: "#aaaaaa",
+                animal: "🐍",
+                crest: "https://i.ibb.co/0jQ5X0n/slytherin-crest.png",
                 founder: "Салазар Слизерин",
                 ghost: "Кровавый Барон",
                 colors: "зелёный и серебряный",
-                traits: "амбициозность, хитрость, находчивость"
+                traits: "амбициозность, хитрость, находчивость",
+                quote: "Слизеринцы ценят амбиции, хитрость и чистоту крови."
             },
-            "Пуффендуй": {
+            "Пуффендуй": { 
+                points: 0, 
+                color: "#ffdb00", 
+                secondaryColor: "#000000",
+                animal: "🦡",
+                crest: "https://i.ibb.co/0jQ5X0n/hufflepuff-crest.png",
                 founder: "Пенелопа Пуффендуй",
                 ghost: "Толстый Монах",
                 colors: "жёлтый и чёрный",
-                traits: "трудолюбие, верность, справедливость"
+                traits: "трудолюбие, верность, справедливость",
+                quote: "Пуффендуйцы трудолюбивы, терпеливы и всегда верны своим друзьям."
             },
-            "Когтевран": {
+            "Когтевран": { 
+                points: 0, 
+                color: "#0e1a40", 
+                secondaryColor: "#946b2d",
+                animal: "🦅",
+                crest: "https://i.ibb.co/0jQ5X0n/ravenclaw-crest.png",
                 founder: "Кандида Когтевран",
                 ghost: "Серая Дама",
                 colors: "синий и бронзовый",
-                traits: "мудрость, интеллект, творчество"
+                traits: "мудрость, интеллект, творчество",
+                quote: "Ум превыше всего! Когтевранцы ценят знания и мудрость."
             }
         };
         
         let currentQuestion = 0;
+        let selectedHouse = "";
         
-        // Создаём звёздное небо
-        function createStars() {
-            const container = document.getElementById('stars-container');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = `${Math.random() * 3 + 1}px`;
-                star.style.height = star.style.width;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                container.appendChild(star);
-            }
-            
-            // Анимация звёзд
-            setInterval(() => {
-                const stars = document.querySelectorAll('.star');
-                stars.forEach(star => {
-                    if (Math.random() > 0.9) {
-                        const colors = ['white', 'gold', 'silver'];
-                        star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    }
-                });
-            }, 300);
-        }
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion();
+            createSparks();
+        });
         
         // Показываем текущий вопрос
         function showQuestion() {
@@ -223,10 +428,8 @@
                 document.getElementById('progress').textContent = 
                     `Вопрос ${currentQuestion + 1} из ${questions.length}`;
                 
-                // Скрываем результат, если он был показан
-                document.getElementById('result').style.display = 'none';
-                document.getElementById('house-info').style.display = 'none';
-                document.getElementById('restart-btn').style.display = 'none';
+                // Скрываем результат
+                document.getElementById('result-container').style.display = 'none';
             } else {
                 showResult();
             }
@@ -234,23 +437,28 @@
         
         // Обработка ответа
         function answerQuestion(optionIndex) {
+            const hat = document.getElementById('hat');
+            hat.classList.add('talking');
+            
+            // Эффект при выборе ответа
+            createMagicEffect(event.target);
+            
             const houseMapping = ["Гриффиндор", "Слизерин", "Пуффендуй", "Когтевран"];
-            const selectedHouse = houseMapping[optionIndex];
-            houses[selectedHouse].points += 1;
-            currentQuestion += 1;
-            showQuestion();
+            const house = houseMapping[optionIndex];
+            houses[house].points += 1;
+            
+            setTimeout(() => {
+                hat.classList.remove('talking');
+                currentQuestion += 1;
+                showQuestion();
+            }, 1000);
         }
         
         // Показываем результат
         function showResult() {
-            // Скрываем кнопки вопросов
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.style.display = 'none';
-            });
-            
             // Определяем факультет с максимальными баллами
             let maxPoints = 0;
-            let selectedHouse = "";
+            selectedHouse = "";
             
             for (const [house, data] of Object.entries(houses)) {
                 if (data.points > maxPoints) {
@@ -271,28 +479,56 @@
                 selectedHouse = candidates[Math.floor(Math.random() * candidates.length)];
             }
             
-            // Показываем результат
-            const resultElement = document.getElementById('result');
-            resultElement.textContent = 
-                `${houses[selectedHouse].animal} *Шшш-шшш*\nВы будете... ${selectedHouse.toUpperCase()}! ${houses[selectedHouse].animal}`;
-            resultElement.style.color = houses[selectedHouse].color;
-            resultElement.style.display = 'block';
+            // Настраиваем отображение результата
+            const resultContainer = document.getElementById('result-container');
+            const houseData = houses[selectedHouse];
             
-            // Показываем информацию о факультете
-            const houseInfoElement = document.getElementById('house-info');
-            houseInfoElement.innerHTML = `
-                <p><strong>${houses[selectedHouse].animal} ${selectedHouse.toUpperCase()} ${houses[selectedHouse].animal}</strong></p>
-                <p>Основатель: ${houseInfo[selectedHouse].founder}</p>
-                <p>Призрак: ${houseInfo[selectedHouse].ghost}</p>
-                <p>Цвета: ${houseInfo[selectedHouse].colors}</p>
-                <p>Характерные черты: ${houseInfo[selectedHouse].traits}</p>
-                <p>Набрано баллов: ${houses[selectedHouse].points}</p>
+            document.getElementById('house-crest').style.backgroundImage = `url(${houseData.crest})`;
+            document.getElementById('result-title').textContent = 
+                `${houseData.animal} ${selectedHouse.toUpperCase()}! ${houseData.animal}`;
+            document.getElementById('house-info').innerHTML = `
+                <p><strong>Основатель:</strong> ${houseData.founder}</p>
+                <p><strong>Призрак:</strong> ${houseData.ghost}</p>
+                <p><strong>Цвета:</strong> ${houseData.colors}</p>
+                <p><strong>Черты характера:</strong> ${houseData.traits}</p>
+                <p><em>"${houseData.quote}"</em></p>
             `;
-            houseInfoElement.style.color = houses[selectedHouse].color;
-            houseInfoElement.style.display = 'block';
             
-            // Показываем кнопку перезапуска
-            document.getElementById('restart-btn').style.display = 'block';
+            // Отображаем баллы всех факультетов
+            const pointsDisplay = document.getElementById('points-display');
+            pointsDisplay.innerHTML = '<h3>Результаты:</h3>';
+            
+            for (const [house, data] of Object.entries(houses)) {
+                const pointElement = document.createElement('span');
+                pointElement.className = 'house-points';
+                pointElement.textContent = `${house}: ${data.points}`;
+                pointElement.style.backgroundColor = house === selectedHouse ? 
+                    houseData.color : '#333';
+                pointElement.style.color = house === selectedHouse ? 
+                    houseData.secondaryColor : '#eee';
+                pointsDisplay.appendChild(pointElement);
+            }
+            
+            // Настраиваем стили результата
+            resultContainer.style.borderColor = houseData.color;
+            resultContainer.style.boxShadow = `0 0 20px ${houseData.color}`;
+            resultContainer.style.display = 'block';
+            document.getElementById('result-title').style.color = houseData.color;
+            document.getElementById('result-title').style.textShadow = `0 0 10px ${houseData.color}`;
+            
+            // Скрываем кнопки вопросов
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            
+            // Анимация появления
+            resultContainer.style.animation = 'none';
+            setTimeout(() => {
+                resultContainer.style.animation = 'fadeIn 1s';
+            }, 10);
+            
+            // Запускаем фейерверк
+            startHouseCelebration(houseData.color, houseData.secondaryColor);
         }
         
         // Перезапуск теста
@@ -304,13 +540,195 @@
             
             currentQuestion = 0;
             showQuestion();
+            
+            // Останавливаем фейерверк
+            const sparks = document.querySelectorAll('.sparks');
+            sparks.forEach(spark => spark.remove());
         }
         
-        // Инициализация
-        window.onload = function() {
-            createStars();
-            showQuestion();
-        };
+        // Создаём эффект искр
+        function createSparks() {
+            document.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.95) {
+                    const spark = document.createElement('div');
+                    spark.className = 'sparks';
+                    spark.style.left = e.pageX + 'px';
+                    spark.style.top = e.pageY + 'px';
+                    spark.style.backgroundColor = `hsl(${Math.random() * 60 + 30}, 100%, 50%)`;
+                    
+                    document.body.appendChild(spark);
+                    
+                    // Анимация искры
+                    let size = Math.random() * 5 + 2;
+                    let posX = e.pageX;
+                    let posY = e.pageY;
+                    let angle = Math.random() * Math.PI * 2;
+                    let speed = Math.random() * 3 + 1;
+                    
+                    const animateSpark = () => {
+                        posX += Math.cos(angle) * speed;
+                        posY += Math.sin(angle) * speed;
+                        size -= 0.1;
+                        
+                        if (size <= 0) {
+                            spark.remove();
+                            return;
+                        }
+                        
+                        spark.style.left = posX + 'px';
+                        spark.style.top = posY + 'px';
+                        spark.style.width = size + 'px';
+                        spark.style.height = size + 'px';
+                        spark.style.opacity = size / 5;
+                        
+                        requestAnimationFrame(animateSpark);
+                    };
+                    
+                    animateSpark();
+                }
+            });
+        }
+        
+        // Создаём магический эффект при выборе ответа
+        function createMagicEffect(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sparks';
+                particle.style.left = centerX + 'px';
+                particle.style.top = centerY + 'px';
+                particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                particle.style.width = '6px';
+                particle.style.height = '6px';
+                
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5 + 2;
+                const size = Math.random() * 4 + 2;
+                
+                let posX = centerX;
+                let posY = centerY;
+                let currentSize = size;
+                
+                const animateParticle = () => {
+                    posX += Math.cos(angle) * speed;
+                    posY += Math.sin(angle) * speed;
+                    currentSize -= 0.1;
+                    
+                    if (currentSize <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = posX + 'px';
+                    particle.style.top = posY + 'px';
+                    particle.style.width = currentSize + 'px';
+                    particle.style.height = currentSize + 'px';
+                    particle.style.opacity = currentSize / size;
+                    
+                    requestAnimationFrame(animateParticle);
+                };
+                
+                animateParticle();
+            }
+        }
+        
+        // Фейерверк при распределении
+        function startHouseCelebration(color1, color2) {
+            const colors = [color1, color2, '#ffffff'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFirework(colors);
+                }, i * 200);
+            }
+        }
+        
+        function createFirework(colors) {
+            const firework = document.createElement('div');
+            firework.style.position = 'fixed';
+            firework.style.left = Math.random() * window.innerWidth + 'px';
+            firework.style.top = Math.random() * window.innerHeight * 0.5 + 'px';
+            firework.style.width = '5px';
+            firework.style.height = '5px';
+            firework.style.borderRadius = '50%';
+            firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            firework.style.zIndex = '10';
+            firework.style.pointerEvents = 'none';
+            
+            document.body.appendChild(firework);
+            
+            // Анимация взрыва
+            let size = 5;
+            let opacity = 1;
+            
+            const explode = () => {
+                size += 2;
+                opacity -= 0.02;
+                
+                firework.style.width = size + 'px';
+                firework.style.height = size + 'px';
+                firework.style.opacity = opacity;
+                firework.style.boxShadow = `0 0 ${size/2}px ${size/4}px ${firework.style.backgroundColor}`;
+                
+                if (opacity <= 0) {
+                    firework.remove();
+                    createParticles(firework.style.left, firework.style.top, colors);
+                    return;
+                }
+                
+                requestAnimationFrame(explode);
+            };
+            
+            explode();
+        }
+        
+        function createParticles(x, y, colors) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sparks';
+                particle.style.left = x;
+                particle.style.top = y;
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 1;
+                const size = Math.random() * 3 + 1;
+                
+                let posX = parseInt(x);
+                let posY = parseInt(y);
+                let currentSize = size;
+                
+                const animateParticle = () => {
+                    posX += Math.cos(angle) * speed;
+                    posY += Math.sin(angle) * speed + 0.5; // гравитация
+                    currentSize -= 0.05;
+                    
+                    if (currentSize <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = posX + 'px';
+                    particle.style.top = posY + 'px';
+                    particle.style.width = currentSize + 'px';
+                    particle.style.height = currentSize + 'px';
+                    particle.style.opacity = currentSize / size;
+                    
+                    requestAnimationFrame(animateParticle);
+                };
+                
+                animateParticle();
+            }
+        }
     </script>
 </body>
 </html>
