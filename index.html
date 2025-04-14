@@ -99,56 +99,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
-        button::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        
-        button:focus:not(:active)::after {
-            animation: ripple 0.6s ease-out;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-        
-        .result {
-            background-color: var(--navy);
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-top: 4px solid var(--dark-brown);
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .gryffindor { color: #ae0001; }
-        .slytherin { color: #2a623d; }
-        .hufflepuff { color: #ecb939; }
-        .ravenclaw { color: #222f5b; }
-        .muggle { color: #6d6d6d; }
-        
         .hidden {
             display: none;
         }
@@ -161,8 +111,6 @@
             background-color: var(--deep-blue);
             transition: all 0.3s ease;
             border-left: 3px solid transparent;
-            position: relative;
-            overflow: hidden;
         }
         
         .option:hover {
@@ -197,28 +145,57 @@
             border-radius: 3px;
         }
         
-        .house-score {
+        .house-item {
             margin-bottom: 10px;
-            padding: 15px;
             border-radius: 5px;
+            overflow: hidden;
             background-color: rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
+        }
+        
+        .house-header {
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .house-score:hover {
-            transform: translateX(5px);
+        .house-header:hover {
             background-color: rgba(0,0,0,0.3);
         }
         
-        .house-score .points {
+        .house-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .house-points {
             font-weight: bold;
             background-color: rgba(255,255,255,0.1);
             padding: 3px 8px;
             border-radius: 10px;
+        }
+        
+        .house-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .house-content.active {
+            padding: 15px;
+            max-height: 500px;
+        }
+        
+        .house-info {
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .house-info p {
+            margin: 8px 0;
         }
         
         #final-result {
@@ -226,7 +203,6 @@
             margin: 30px 0;
             border-radius: 8px;
             text-align: center;
-            animation: pulse 2s infinite;
             background-color: rgba(0,0,0,0.2);
             border: 2px solid var(--light-beige);
         }
@@ -245,33 +221,6 @@
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        
-        #house-description {
-            padding: 20px;
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 8px;
-            border-left: 4px solid var(--light-beige);
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .house-header {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .house-traits {
-            margin-top: 15px;
-            font-style: italic;
-        }
-        
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
@@ -282,32 +231,18 @@
             100% { transform: translateY(0px); }
         }
         
-        .house-info-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-            margin-left: 10px;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            color: var(--light-beige);
-            font-weight: bold;
-        }
+        /* Цвета факультетов */
+        .gryffindor { color: #ae0001; }
+        .slytherin { color: #2a623d; }
+        .hufflepuff { color: #ecb939; }
+        .ravenclaw { color: #222f5b; }
+        .muggle { color: #6d6d6d; }
         
-        .house-info-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.1);
-        }
-        
-        .active {
-            display: block;
-            animation: fadeIn 0.5s ease-out;
-        }
+        .gryffindor-bg { background-color: rgba(174, 0, 1, 0.2); }
+        .slytherin-bg { background-color: rgba(42, 98, 61, 0.2); }
+        .hufflepuff-bg { background-color: rgba(236, 185, 57, 0.2); }
+        .ravenclaw-bg { background-color: rgba(34, 47, 91, 0.2); }
+        .muggle-bg { background-color: rgba(109, 109, 109, 0.2); }
     </style>
 </head>
 <body>
@@ -333,14 +268,12 @@
         
         <div id="final-result"></div>
         
-        <div id="house-description"></div>
-        
         <div style="text-align: center; margin-top: 30px;">
             <button id="restart-btn">Пройти тест снова</button>
         </div>
     </div>
 
-   <script>
+    <script>
         const questions = [
             {
                 "question": "Вы обнаружили горного тролля в школе. Ваши действия?",
@@ -494,15 +427,6 @@
             }
         ];
 
-
-        const houseDescriptions = {
-            "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых.",
-            "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный.",
-            "Пуффендуй": "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный. Вас любят животные и дети - лучший показатель характера. В жизни вы вероятно отличный друг, родитель или профессионал своего дела. Ваша философия: Тише едешь - дальше будешь.",
-            "Когтевран": "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ. В обычной жизни вы вероятно ученый, писатель или изобретатель. Ваша слабость: иногда слишком много думаете и мало делаете. Ваш принцип: Знание - сила, но мудрость - власть.",
-            "Магл": "Вы трезво смотрите на мир без розовых очков. Технологии для вас - естественная среда обитания. Вам чужды магические предрассудки, вы верите в науку. Вас можно назвать реалистом до мозга костей. В критической ситуации первым делом полезете в интернет. Ваши плюсы: гибкость мышления и умение находить простые решения. Ваш девиз: Зачем волшебная палочка, если есть смартфон?"
-        };
-
         const houseInfo = {
             "Гриффиндор": {
                 founder: "Годрик Гриффиндор",
@@ -510,7 +434,8 @@
                 animal: "Лев",
                 traits: "Храбрость, благородство, решительность",
                 ghost: "Почти Безголовый Ник",
-                commonRoom: "Гриффиндорская башня"
+                commonRoom: "Гриффиндорская башня",
+                description: "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное."
             },
             "Слизерин": {
                 founder: "Салазар Слизерин",
@@ -518,7 +443,8 @@
                 animal: "Змея",
                 traits: "Амбициозность, хитрость, находчивость",
                 ghost: "Кровавый Барон",
-                commonRoom: "Подземелья под озером"
+                commonRoom: "Подземелья под озером",
+                description: "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста."
             },
             "Пуффендуй": {
                 founder: "Пенелопа Пуффендуй",
@@ -526,7 +452,8 @@
                 animal: "Барсук",
                 traits: "Трудолюбие, верность, честность",
                 ghost: "Толстый Монах",
-                commonRoom: "Кухня рядом с Хогвартсом"
+                commonRoom: "Кухня рядом с Хогвартсом",
+                description: "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный."
             },
             "Когтевран": {
                 founder: "Кандида Когтевран",
@@ -534,7 +461,8 @@
                 animal: "Орёл",
                 traits: "Ум, мудрость, творчество",
                 ghost: "Серая Дама",
-                commonRoom: "Башня на западной стороне"
+                commonRoom: "Башня на западной стороне",
+                description: "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ."
             },
             "Магл": {
                 founder: "Неизвестен",
@@ -542,7 +470,8 @@
                 animal: "Кот",
                 traits: "Практичность, логика, адаптивность",
                 ghost: "Нет",
-                commonRoom: "Ваш собственный дом"
+                commonRoom: "Ваш собственный дом",
+                description: "Вы трезво смотрите на мир без розовых очков. Технологии для вас - естественная среда обитания. Вам чужды магические предрассудки, вы верите в науку. Вас можно назвать реалистом до мозга костей."
             }
         };
 
@@ -566,7 +495,6 @@
         const resultsContainer = document.getElementById('results-container');
         const housesScores = document.getElementById('houses-scores');
         const finalResult = document.getElementById('final-result');
-        const houseDescription = document.getElementById('house-description');
         const restartBtn = document.getElementById('restart-btn');
         const progressBar = document.getElementById('progress-bar');
 
@@ -576,7 +504,7 @@
             
             const question = shuffledQuestions[currentQuestion];
             questionsContainer.innerHTML = `
-                <div class="question floating">
+                <div class="question">
                     <h3>Вопрос ${currentQuestion + 1} из ${shuffledQuestions.length}</h3>
                     <p>${question.question}</p>
                     <div class="options" id="options-container"></div>
@@ -643,22 +571,19 @@
         });
 
         // Показать информацию о факультете
-        function showHouseInfo(house, event) {
-            if (event) event.stopPropagation();
-            
+        function showHouseInfo(house) {
             const info = houseInfo[house];
-            houseDescription.innerHTML = `
-                <div class="house-header ${house.toLowerCase()}">
-                    <h3>${house}</h3>
-                    <p>${info.colors} | ${info.animal}</p>
+            return `
+                <div class="house-info">
+                    <p><strong>Основатель:</strong> ${info.founder}</p>
+                    <p><strong>Цвета:</strong> ${info.colors}</p>
+                    <p><strong>Животное:</strong> ${info.animal}</p>
+                    <p><strong>Качества:</strong> ${info.traits}</p>
+                    <p><strong>Гостиная:</strong> ${info.commonRoom}</p>
+                    <p><strong>Призрак:</strong> ${info.ghost}</p>
+                    <p>${info.description}</p>
                 </div>
-                <p><strong>Основатель:</strong> ${info.founder}</p>
-                <p><strong>Качества:</strong> ${info.traits}</p>
-                <p><strong>Гостиная:</strong> ${info.commonRoom}</p>
-                <p><strong>Призрак:</strong> ${info.ghost}</p>
-                <div class="house-traits">${houseDescriptions[house]}</div>
             `;
-            houseDescription.classList.add('active');
         }
 
         // Показать результаты
@@ -670,31 +595,48 @@
             const sortedHouses = Object.entries(housePoints).sort((a, b) => b[1] - a[1]);
             const winningHouse = sortedHouses[0][0];
 
-            housesScores.innerHTML = sortedHouses.map(([house, points]) => `
-                <div class="house-score ${house.toLowerCase()}" data-house="${house}">
-                    <div>
-                        <strong>${house}</strong>
-                        <button class="house-info-btn" data-house="${house}" aria-label="Информация о ${house}">i</button>
-                    </div>
-                    <span class="points">${points} баллов</span>
-                </div>
-            `).join('');
-
-            document.querySelectorAll('.house-score, .house-info-btn').forEach(element => {
-                element.addEventListener('click', (event) => {
-                    const house = element.dataset.house || 
-                                 element.closest('.house-score').dataset.house;
-                    showHouseInfo(house, event);
+            // Очищаем предыдущие результаты
+            housesScores.innerHTML = '';
+            
+            // Создаем элементы для каждого факультета
+            sortedHouses.forEach(([house, points]) => {
+                const houseElement = document.createElement('div');
+                houseElement.className = `house-item ${house.toLowerCase()}-bg`;
+                
+                const houseHeader = document.createElement('div');
+                houseHeader.className = 'house-header';
+                houseHeader.innerHTML = `
+                    <div class="house-name ${house.toLowerCase()}">${house}</div>
+                    <div class="house-points">${points} баллов</div>
+                `;
+                
+                const houseContent = document.createElement('div');
+                houseContent.className = 'house-content';
+                houseContent.innerHTML = showHouseInfo(house);
+                
+                // Обработчик клика для разворачивания информации
+                houseHeader.addEventListener('click', () => {
+                    houseContent.classList.toggle('active');
                 });
+                
+                houseElement.appendChild(houseHeader);
+                houseElement.appendChild(houseContent);
+                housesScores.appendChild(houseElement);
             });
 
+            // Показываем победителя
             finalResult.innerHTML = `
                 <h2>РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
                 <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}</h3>
                 <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
             `;
             
-            showHouseInfo(winningHouse);
+            // Автоматически разворачиваем информацию о победителе
+            const winningElement = housesScores.firstChild;
+            if (winningElement) {
+                winningElement.querySelector('.house-content').classList.add('active');
+            }
+            
             finalResult.classList.add('floating');
         }
 
@@ -712,7 +654,6 @@
             resultsContainer.classList.add('hidden');
             progressBar.style.width = '0%';
             finalResult.classList.remove('floating');
-            houseDescription.classList.remove('active');
             showQuestion();
         });
 
