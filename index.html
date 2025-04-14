@@ -221,62 +221,41 @@
             border-radius: 10px;
         }
         
-        #final-result {
-            padding: 30px;
-            margin: 30px 0;
-            border-radius: 8px;
-            text-align: center;
-            animation: pulse 2s infinite;
-            background-color: rgba(0,0,0,0.2);
-            border: 2px solid var(--light-beige);
-        }
-        
+       <style>
+        /* Добавляем новые стили для финального результата */
         #final-result h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem; /* Уменьшаем подзаголовок */
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        #final-result h3 {
+            font-size: 3.5rem; /* Увеличиваем название факультета */
+            margin: 10px 0;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         
-        #final-result p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        
-        #house-description {
-            padding: 20px;
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 8px;
-            border-left: 4px solid var(--light-beige);
-            font-style: italic;
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
+        /* Стиль для кнопки информации о факультете */
         .house-info-btn {
-            background: none;
+            background: rgba(255,255,255,0.1);
             border: none;
-            color: inherit;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
             cursor: pointer;
-            font-size: 1.2rem;
-            padding: 5px;
             margin-left: 10px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .house-info-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -633,83 +612,62 @@
             houseDescription.style.display = 'block';
         }
 
-        // Показать результаты
+        // Показать результаты (обновлённая функция)
         function showResults() {
-            // Завершаем прогресс-бар
             progressBar.style.width = '100%';
-            
             quizContainer.classList.add('hidden');
             resultsContainer.classList.remove('hidden');
 
-            // Сортируем факультеты по очкам
             const sortedHouses = Object.entries(housePoints).sort((a, b) => b[1] - a[1]);
             const winningHouse = sortedHouses[0][0];
 
-            // Выводим баллы
-            housesScores.innerHTML = sortedHouses.map(([house, points]) => 
-                `<div class="house-score ${house.toLowerCase()}" data-house="${house}">
+            // Таблица баллов с кнопками информации
+            housesScores.innerHTML = sortedHouses.map(([house, points]) => `
+                <div class="house-score ${house.toLowerCase()}" data-house="${house}">
                     <div>
                         <strong>${house}</strong>
-                        <button class="house-info-btn" data-house="${house}">ℹ️</button>
+                        <button class="house-info-btn" data-house="${house}">i</button>
                     </div>
                     <span class="points">${points} баллов</span>
-                </div>`
-            ).join('');
+                </div>
+            `).join('');
 
-            // Добавляем обработчики кликов на кнопки информации
-            document.querySelectorAll('.house-info-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const house = btn.dataset.house;
+            // Клик на факультет или кнопку "i" показывает информацию
+            document.querySelectorAll('.house-score, .house-info-btn').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const house = el.dataset.house || el.closest('.house-score').dataset.house;
                     showHouseInfo(house);
                 });
             });
 
-            // Добавляем обработчики кликов на строки факультетов
-            document.querySelectorAll('.house-score').forEach(score => {
-                score.addEventListener('click', () => {
-                    const house = score.dataset.house;
-                    showHouseInfo(house);
-                });
-            });
-
-            // Выводим результат
+            // Финальный результат с большим названием факультета
             finalResult.innerHTML = `
-                <h2 class="${winningHouse.toLowerCase()}">РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
-                <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}!</h3>
+                <h2>РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
+                <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}</h3>
                 <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
             `;
             
-            // Показываем описание выигравшего факультета
+            // Автоматически показываем описание выигравшего факультета
             showHouseInfo(winningHouse);
-            
-            // Добавляем анимацию к результату
             finalResult.classList.add('floating');
         }
 
-        // Обработчик кнопки "Пройти тест снова"
-        restartBtn.addEventListener('click', () => {
-            // Сбрасываем состояние
-            currentQuestion = 0;
-            selectedOptions = [];
-            for (const house in housePoints) {
-                housePoints[house] = 0;
-            }
-            
-            // Перемешиваем вопросы заново
-            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
-            
-            // Показываем первый вопрос
-            quizContainer.classList.remove('hidden');
-            resultsContainer.classList.add('hidden');
-            progressBar.style.width = '0%';
-            finalResult.classList.remove('floating');
-            houseDescription.style.display = 'none';
-            showQuestion();
-        });
-
-        // Начинаем викторину
-        showQuestion();
+        // Показать информацию о факультете (стилизованное описание)
+        function showHouseInfo(house) {
+            const info = houseInfo[house];
+            houseDescription.innerHTML = `
+                <div class="house-header ${house.toLowerCase()}">
+                    <h3>${house}</h3>
+                    <p>${info.colors} | ${info.animal}</p>
+                </div>
+                <p><strong>Основатель:</strong> ${info.founder}</p>
+                <p><strong>Качества:</strong> ${info.traits}</p>
+                <p><strong>Гостиная:</strong> ${info.commonRoom}</p>
+                <p><strong>Призрак:</strong> ${info.ghost}</p>
+                <div class="house-traits">${houseDescriptions[house]}</div>
+            `;
+            houseDescription.style.display = 'block';
+        }
     </script>
 </body>
 </html>
