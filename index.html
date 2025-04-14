@@ -503,7 +503,7 @@
         };
 
         // Перемешиваем вопросы и выбираем 5
-        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
         let currentQuestion = 0;
         let selectedOptions = [];
         const housePoints = {
@@ -673,7 +673,7 @@
                 housePoints[house] = 0;
             }
             
-            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
             
             quizContainer.classList.remove('hidden');
             resultsContainer.classList.add('hidden');
