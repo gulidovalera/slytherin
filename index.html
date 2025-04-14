@@ -199,22 +199,48 @@
         
         .house-score {
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             background-color: rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .house-score:hover {
             transform: translateX(5px);
+            background-color: rgba(0,0,0,0.3);
+        }
+        
+        .house-score .points {
+            font-weight: bold;
+            background-color: rgba(255,255,255,0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
         }
         
         #final-result {
-            padding: 20px;
-            margin: 20px 0;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 8px;
             text-align: center;
             animation: pulse 2s infinite;
+            background-color: rgba(0,0,0,0.2);
+            border: 2px solid var(--light-beige);
+        }
+        
+        #final-result h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #final-result p {
+            font-size: 1.2rem;
+            margin-top: 10px;
         }
         
         @keyframes pulse {
@@ -229,6 +255,8 @@
             border-radius: 8px;
             border-left: 4px solid var(--light-beige);
             font-style: italic;
+            margin-top: 20px;
+            display: none;
         }
         
         .floating {
@@ -239,6 +267,16 @@
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
+        }
+        
+        .house-info-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -262,14 +300,17 @@
     <div id="results-container" class="hidden">
         <h2>Результаты:</h2>
         <div id="houses-scores"></div>
+        
         <div id="final-result"></div>
+        
         <div id="house-description"></div>
+        
         <div style="text-align: center; margin-top: 30px;">
             <button id="restart-btn">Пройти тест снова</button>
         </div>
     </div>
-
-    <script>
+    
+<script>
         const questions = [
             {
                 "question": "Вы обнаружили горного тролля в школе. Ваши действия?",
@@ -423,13 +464,55 @@
             }
         ];
 
-
         const houseDescriptions = {
-            "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых",
-            "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный",
-            "Пуффендуй": "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный. Вас любят животные и дети - лучший показатель характера. В жизни вы вероятно отличный друг, родитель или профессионал своего дела. Ваша философия: Тише едешь - дальше будешь",
-            "Когтевран": "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ. В обычной жизни вы вероятно ученый, писатель или изобретатель. Ваша слабость: иногда слишком много думаете и мало делаете. Ваш принцип: Знание - сила, но мудрость - власть",
+            "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых.",
+            "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный.",
+            "Пуффендуй": "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный. Вас любят животные и дети - лучший показатель характера. В жизни вы вероятно отличный друг, родитель или профессионал своего дела. Ваша философия: Тише едешь - дальше будешь.",
+            "Когтевран": "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ. В обычной жизни вы вероятно ученый, писатель или изобретатель. Ваша слабость: иногда слишком много думаете и мало делаете. Ваш принцип: Знание - сила, но мудрость - власть.",
             "Магл": "Вы трезво смотрите на мир без розовых очков. Технологии для вас - естественная среда обитания. Вам чужды магические предрассудки, вы верите в науку. Вас можно назвать реалистом до мозга костей. В критической ситуации первым делом полезете в интернет. Ваши плюсы: гибкость мышления и умение находить простые решения. Ваш девиз: Зачем волшебная палочка, если есть смартфон?"
+        };
+
+        const houseInfo = {
+            "Гриффиндор": {
+                founder: "Годрик Гриффиндор",
+                colors: "Алый и золотой",
+                animal: "Лев",
+                traits: "Храбрость, благородство, решительность",
+                ghost: "Почти Безголовый Ник",
+                commonRoom: "Гриффиндорская башня"
+            },
+            "Слизерин": {
+                founder: "Салазар Слизерин",
+                colors: "Зелёный и серебряный",
+                animal: "Змея",
+                traits: "Амбициозность, хитрость, находчивость",
+                ghost: "Кровавый Барон",
+                commonRoom: "Подземелья под озером"
+            },
+            "Пуффендуй": {
+                founder: "Пенелопа Пуффендуй",
+                colors: "Жёлтый и чёрный",
+                animal: "Барсук",
+                traits: "Трудолюбие, верность, честность",
+                ghost: "Толстый Монах",
+                commonRoom: "Кухня рядом с Хогвартсом"
+            },
+            "Когтевран": {
+                founder: "Кандида Когтевран",
+                colors: "Синий и бронзовый",
+                animal: "Орёл",
+                traits: "Ум, мудрость, творчество",
+                ghost: "Серая Дама",
+                commonRoom: "Башня на западной стороне"
+            },
+            "Магл": {
+                founder: "Неизвестен",
+                colors: "Серый и белый",
+                animal: "Кот",
+                traits: "Практичность, логика, адаптивность",
+                ghost: "Нет",
+                commonRoom: "Ваш собственный дом"
+            }
         };
 
         // Перемешиваем вопросы и выбираем 10
@@ -534,6 +617,22 @@
             showResults();
         });
 
+        // Показать информацию о факультете
+        function showHouseInfo(house) {
+            const info = houseInfo[house];
+            houseDescription.innerHTML = `
+                <h3>Информация о ${house}:</h3>
+                <p><strong>Основатель:</strong> ${info.founder}</p>
+                <p><strong>Цвета:</strong> ${info.colors}</p>
+                <p><strong>Животное:</strong> ${info.animal}</p>
+                <p><strong>Качества:</strong> ${info.traits}</p>
+                <p><strong>Призрак:</strong> ${info.ghost}</p>
+                <p><strong>Гостиная:</strong> ${info.commonRoom}</p>
+                <p>${houseDescriptions[house]}</p>
+            `;
+            houseDescription.style.display = 'block';
+        }
+
         // Показать результаты
         function showResults() {
             // Завершаем прогресс-бар
@@ -548,19 +647,41 @@
 
             // Выводим баллы
             housesScores.innerHTML = sortedHouses.map(([house, points]) => 
-                `<div class="house-score ${house.toLowerCase()}"><strong>${house}:</strong> ${points} баллов</div>`
+                `<div class="house-score ${house.toLowerCase()}" data-house="${house}">
+                    <div>
+                        <strong>${house}</strong>
+                        <button class="house-info-btn" data-house="${house}">ℹ️</button>
+                    </div>
+                    <span class="points">${points} баллов</span>
+                </div>`
             ).join('');
+
+            // Добавляем обработчики кликов на кнопки информации
+            document.querySelectorAll('.house-info-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const house = btn.dataset.house;
+                    showHouseInfo(house);
+                });
+            });
+
+            // Добавляем обработчики кликов на строки факультетов
+            document.querySelectorAll('.house-score').forEach(score => {
+                score.addEventListener('click', () => {
+                    const house = score.dataset.house;
+                    showHouseInfo(house);
+                });
+            });
 
             // Выводим результат
             finalResult.innerHTML = `
-                <h3 class="${winningHouse.toLowerCase()}">Распределяющая Шляпа отправляет вас в... ${winningHouse.toUpperCase()}!</h3>
+                <h2 class="${winningHouse.toLowerCase()}">РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
+                <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}!</h3>
                 <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
             `;
-
-            // Выводим описание факультета
-            houseDescription.innerHTML = `
-                <p>${houseDescriptions[winningHouse]}</p>
-            `;
+            
+            // Показываем описание выигравшего факультета
+            showHouseInfo(winningHouse);
             
             // Добавляем анимацию к результату
             finalResult.classList.add('floating');
@@ -583,6 +704,7 @@
             resultsContainer.classList.add('hidden');
             progressBar.style.width = '0%';
             finalResult.classList.remove('floating');
+            houseDescription.style.display = 'none';
             showQuestion();
         });
 
