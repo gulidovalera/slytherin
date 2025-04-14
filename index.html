@@ -221,23 +221,67 @@
             border-radius: 10px;
         }
         
-       <style>
-        /* Добавляем новые стили для финального результата */
+        #final-result {
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+            animation: pulse 2s infinite;
+            background-color: rgba(0,0,0,0.2);
+            border: 2px solid var(--light-beige);
+        }
+        
         #final-result h2 {
-            font-size: 1.5rem; /* Уменьшаем подзаголовок */
+            font-size: 1.5rem;
             margin-bottom: 5px;
             letter-spacing: 1px;
             opacity: 0.8;
         }
         
         #final-result h3 {
-            font-size: 3.5rem; /* Увеличиваем название факультета */
+            font-size: 3.5rem;
             margin: 10px 0;
             text-transform: uppercase;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         
-        /* Стиль для кнопки информации о факультете */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        #house-description {
+            padding: 20px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--light-beige);
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .house-header {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .house-traits {
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
         .house-info-btn {
             background: rgba(255,255,255,0.1);
             border: none;
@@ -288,8 +332,8 @@
             <button id="restart-btn">Пройти тест снова</button>
         </div>
     </div>
-    
-<script>
+
+    <script>
         const questions = [
             {
                 "question": "Вы обнаружили горного тролля в школе. Ваши действия?",
@@ -443,6 +487,7 @@
             }
         ];
 
+
         const houseDescriptions = {
             "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых.",
             "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный.",
@@ -494,8 +539,8 @@
             }
         };
 
-        // Перемешиваем вопросы и выбираем 10
-        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+        // Перемешиваем вопросы и выбираем 5
+        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
         let currentQuestion = 0;
         let selectedOptions = [];
         const housePoints = {
@@ -520,7 +565,6 @@
 
         // Показать текущий вопрос
         function showQuestion() {
-            // Обновляем прогресс-бар
             progressBar.style.width = `${(currentQuestion / shuffledQuestions.length) * 100}%`;
             
             const question = shuffledQuestions[currentQuestion];
@@ -548,7 +592,6 @@
                 optionsContainer.appendChild(optionElement);
             });
 
-            // Показываем/скрываем кнопки
             nextBtn.classList.remove('hidden');
             resultsBtn.classList.add('hidden');
             if (currentQuestion === shuffledQuestions.length - 1) {
@@ -568,11 +611,9 @@
             const optionIndex = parseInt(selectedOption.value);
             const option = shuffledQuestions[currentQuestion].options[optionIndex];
             
-            // Сохраняем выбранный вариант
             selectedOptions.push(option);
             housePoints[option.house] += option.points;
             
-            // Переходим к следующему вопросу
             currentQuestion++;
             showQuestion();
         });
@@ -588,71 +629,13 @@
             const optionIndex = parseInt(selectedOption.value);
             const option = shuffledQuestions[currentQuestion].options[optionIndex];
             
-            // Сохраняем последний выбранный вариант
             selectedOptions.push(option);
             housePoints[option.house] += option.points;
             
-            // Показываем результаты
             showResults();
         });
 
         // Показать информацию о факультете
-        function showHouseInfo(house) {
-            const info = houseInfo[house];
-            houseDescription.innerHTML = `
-                <h3>Информация о ${house}:</h3>
-                <p><strong>Основатель:</strong> ${info.founder}</p>
-                <p><strong>Цвета:</strong> ${info.colors}</p>
-                <p><strong>Животное:</strong> ${info.animal}</p>
-                <p><strong>Качества:</strong> ${info.traits}</p>
-                <p><strong>Призрак:</strong> ${info.ghost}</p>
-                <p><strong>Гостиная:</strong> ${info.commonRoom}</p>
-                <p>${houseDescriptions[house]}</p>
-            `;
-            houseDescription.style.display = 'block';
-        }
-
-        // Показать результаты (обновлённая функция)
-        function showResults() {
-            progressBar.style.width = '100%';
-            quizContainer.classList.add('hidden');
-            resultsContainer.classList.remove('hidden');
-
-            const sortedHouses = Object.entries(housePoints).sort((a, b) => b[1] - a[1]);
-            const winningHouse = sortedHouses[0][0];
-
-            // Таблица баллов с кнопками информации
-            housesScores.innerHTML = sortedHouses.map(([house, points]) => `
-                <div class="house-score ${house.toLowerCase()}" data-house="${house}">
-                    <div>
-                        <strong>${house}</strong>
-                        <button class="house-info-btn" data-house="${house}">i</button>
-                    </div>
-                    <span class="points">${points} баллов</span>
-                </div>
-            `).join('');
-
-            // Клик на факультет или кнопку "i" показывает информацию
-            document.querySelectorAll('.house-score, .house-info-btn').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    const house = el.dataset.house || el.closest('.house-score').dataset.house;
-                    showHouseInfo(house);
-                });
-            });
-
-            // Финальный результат с большим названием факультета
-            finalResult.innerHTML = `
-                <h2>РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
-                <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}</h3>
-                <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
-            `;
-            
-            // Автоматически показываем описание выигравшего факультета
-            showHouseInfo(winningHouse);
-            finalResult.classList.add('floating');
-        }
-
-        // Показать информацию о факультете (стилизованное описание)
         function showHouseInfo(house) {
             const info = houseInfo[house];
             houseDescription.innerHTML = `
@@ -668,6 +651,63 @@
             `;
             houseDescription.style.display = 'block';
         }
+
+        // Показать результаты
+        function showResults() {
+            progressBar.style.width = '100%';
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            const sortedHouses = Object.entries(housePoints).sort((a, b) => b[1] - a[1]);
+            const winningHouse = sortedHouses[0][0];
+
+            housesScores.innerHTML = sortedHouses.map(([house, points]) => `
+                <div class="house-score ${house.toLowerCase()}" data-house="${house}">
+                    <div>
+                        <strong>${house}</strong>
+                        <button class="house-info-btn" data-house="${house}">i</button>
+                    </div>
+                    <span class="points">${points} баллов</span>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.house-score, .house-info-btn').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const house = el.dataset.house || el.closest('.house-score').dataset.house;
+                    showHouseInfo(house);
+                });
+            });
+
+            finalResult.innerHTML = `
+                <h2>РАСПРЕДЕЛЯЮЩАЯ ШЛЯПА РЕШАЕТ...</h2>
+                <h3 class="${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}</h3>
+                <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
+            `;
+            
+            showHouseInfo(winningHouse);
+            finalResult.classList.add('floating');
+        }
+
+        // Обработчик кнопки "Пройти тест снова"
+        restartBtn.addEventListener('click', () => {
+            currentQuestion = 0;
+            selectedOptions = [];
+            for (const house in housePoints) {
+                housePoints[house] = 0;
+            }
+            
+            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+            
+            quizContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            progressBar.style.width = '0%';
+            finalResult.classList.remove('floating');
+            houseDescription.style.display = 'none';
+            showQuestion();
+        });
+
+        // Начинаем викторину
+        showQuestion();
     </script>
 </body>
 </html>
