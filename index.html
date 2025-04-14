@@ -17,12 +17,6 @@
             --navy: #0A1318;
         }
         
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         body {
             font-family: 'Raleway', sans-serif;
             max-width: 800px;
@@ -31,20 +25,16 @@
             background-color: var(--dark-teal);
             color: var(--light-beige);
             line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         
         h1, h2, h3 {
             font-family: 'Playfair Display', serif;
             color: var(--light-beige);
             text-align: center;
-            word-wrap: break-word;
         }
         
         h1 {
-            font-size: min(max(1.8rem, 5vw), 2.5rem);
+            font-size: 2.5rem;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
@@ -57,18 +47,24 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: min(100px, 20vw);
+            width: 100px;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--light-beige), transparent);
         }
         
         .question {
             background-color: var(--navy);
-            padding: min(25px, 5vw);
-            margin-bottom: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border-left: 4px solid var(--dark-brown);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
         
         .options {
@@ -81,16 +77,15 @@
             background-color: var(--dark-brown);
             color: var(--light-beige);
             border: none;
-            padding: min(12px, 3vw) min(25px, 6vw);
+            padding: 12px 25px;
             margin-top: 15px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: min(max(14px, 4vw), 16px);
-            width: min(100%, 250px);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            transition: all 0.3s;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
         
         button:hover {
@@ -99,33 +94,38 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
         
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
         .hidden {
             display: none;
         }
         
         .option {
             margin: 12px 0;
-            padding: min(15px, 4vw);
+            padding: 15px;
             border-radius: 6px;
             cursor: pointer;
             background-color: var(--deep-blue);
+            transition: all 0.3s ease;
             border-left: 3px solid transparent;
-            transition: all 0.3s;
         }
         
-        .option:hover, .selected {
-            background-color: var(--dark-gray);
-            border-left: 3px solid var(--light-beige);
+        .option:hover {
+            background-color: var(--medium-gray);
             transform: translateX(5px);
         }
         
         .selected {
+            background-color: var(--dark-gray);
+            border-left: 3px solid var(--light-beige);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
         
         .option input {
             margin-right: 10px;
-            transform: scale(1.2);
         }
         
         .progress-container {
@@ -133,7 +133,7 @@
             height: 6px;
             background-color: var(--deep-blue);
             border-radius: 3px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             overflow: hidden;
         }
         
@@ -142,6 +142,7 @@
             background: linear-gradient(90deg, var(--dark-brown), var(--medium-gray));
             width: 0%;
             transition: width 0.5s ease;
+            border-radius: 3px;
         }
         
         .house-item {
@@ -152,7 +153,7 @@
         }
         
         .house-header {
-            padding: min(15px, 4vw);
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -166,7 +167,7 @@
         
         .house-name {
             font-weight: bold;
-            font-size: min(max(1rem, 4vw), 1.1rem);
+            font-size: 1.1rem;
         }
         
         .house-points {
@@ -174,25 +175,23 @@
             background-color: rgba(255,255,255,0.1);
             padding: 3px 8px;
             border-radius: 10px;
-            font-size: min(max(0.9rem, 4vw), 1rem);
         }
         
         .house-content {
-            padding: 0 min(15px, 4vw);
+            padding: 0 15px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease, padding 0.3s ease;
         }
         
         .house-content.active {
-            padding: 0 min(15px, 4vw) min(15px, 4vw);
-            max-height: 1000px;
+            padding: 15px;
+            max-height: 500px;
         }
         
         .house-info {
             padding-top: 10px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: min(max(0.9rem, 4vw), 1rem);
         }
         
         .house-info p {
@@ -200,7 +199,7 @@
         }
         
         #final-result {
-            padding: min(30px, 6vw);
+            padding: 30px;
             margin: 30px 0;
             border-radius: 8px;
             text-align: center;
@@ -209,13 +208,27 @@
         }
         
         #final-result h2 {
-            font-size: min(max(1.2rem, 5vw), 1.5rem);
+            font-size: 1.5rem;
             margin-bottom: 5px;
+            letter-spacing: 1px;
+            opacity: 0.8;
         }
         
         #final-result h3 {
-            font-size: min(max(2rem, 8vw), 3.5rem);
+            font-size: 3.5rem;
             margin: 10px 0;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
         /* Цвета факультетов */
@@ -230,38 +243,6 @@
         .hufflepuff-bg { background-color: rgba(236, 185, 57, 0.2); }
         .ravenclaw-bg { background-color: rgba(34, 47, 91, 0.2); }
         .muggle-bg { background-color: rgba(109, 109, 109, 0.2); }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 15px;
-            }
-            
-            .question {
-                padding: 15px;
-            }
-            
-            .option {
-                padding: 12px;
-            }
-            
-            #final-result {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            body {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .option input {
-                transform: scale(1);
-            }
-        }
     </style>
 </head>
 <body>
@@ -446,8 +427,56 @@
             }
         ];
 
-        // Перемешиваем вопросы и выбираем 5
-        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+        const houseInfo = {
+            "Гриффиндор": {
+                founder: "Годрик Гриффиндор",
+                colors: "Алый и золотой",
+                animal: "Лев",
+                traits: "Храбрость, благородство, решительность",
+                ghost: "Почти Безголовый Ник",
+                commonRoom: "Гриффиндорская башня",
+                description: "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное."
+            },
+            "Слизерин": {
+                founder: "Салазар Слизерин",
+                colors: "Зелёный и серебряный",
+                animal: "Змея",
+                traits: "Амбициозность, хитрость, находчивость",
+                ghost: "Кровавый Барон",
+                commonRoom: "Подземелья под озером",
+                description: "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста."
+            },
+            "Пуффендуй": {
+                founder: "Пенелопа Пуффендуй",
+                colors: "Жёлтый и чёрный",
+                animal: "Барсук",
+                traits: "Трудолюбие, верность, честность",
+                ghost: "Толстый Монах",
+                commonRoom: "Кухня рядом с Хогвартсом",
+                description: "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный."
+            },
+            "Когтевран": {
+                founder: "Кандида Когтевран",
+                colors: "Синий и бронзовый",
+                animal: "Орёл",
+                traits: "Ум, мудрость, творчество",
+                ghost: "Серая Дама",
+                commonRoom: "Башня на западной стороне",
+                description: "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ."
+            },
+            "Магл": {
+                founder: "Неизвестен",
+                colors: "Серый и белый",
+                animal: "Кот",
+                traits: "Практичность, логика, адаптивность",
+                ghost: "Нет",
+                commonRoom: "Ваш собственный дом",
+                description: "Вы трезво смотрите на мир без розовых очков. Технологии для вас - естественная среда обитания. Вам чужды магические предрассудки, вы верите в науку. Вас можно назвать реалистом до мозга костей."
+            }
+        };
+
+        // Перемешиваем вопросы и выбираем 10
+        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
         let currentQuestion = 0;
         let selectedOptions = [];
         const housePoints = {
@@ -607,6 +636,8 @@
             if (winningElement) {
                 winningElement.querySelector('.house-content').classList.add('active');
             }
+            
+            finalResult.classList.add('floating');
         }
 
         // Обработчик кнопки "Пройти тест снова"
@@ -617,11 +648,12 @@
                 housePoints[house] = 0;
             }
             
-            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
             
             quizContainer.classList.remove('hidden');
             resultsContainer.classList.add('hidden');
             progressBar.style.width = '0%';
+            finalResult.classList.remove('floating');
             showQuestion();
         });
 
