@@ -295,11 +295,18 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            color: var(--light-beige);
+            font-weight: bold;
         }
         
         .house-info-btn:hover {
             background: rgba(255,255,255,0.2);
             transform: scale(1.1);
+        }
+        
+        .active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
@@ -333,7 +340,7 @@
         </div>
     </div>
 
-    <script>
+   <script>
         const questions = [
             {
                 "question": "Вы обнаружили горного тролля в школе. Ваши действия?",
@@ -539,8 +546,8 @@
             }
         };
 
-        // Перемешиваем вопросы и выбираем 5
-        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+        // Перемешиваем вопросы и выбираем 10
+        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
         let currentQuestion = 0;
         let selectedOptions = [];
         const housePoints = {
@@ -636,7 +643,9 @@
         });
 
         // Показать информацию о факультете
-        function showHouseInfo(house) {
+        function showHouseInfo(house, event) {
+            if (event) event.stopPropagation();
+            
             const info = houseInfo[house];
             houseDescription.innerHTML = `
                 <div class="house-header ${house.toLowerCase()}">
@@ -649,7 +658,7 @@
                 <p><strong>Призрак:</strong> ${info.ghost}</p>
                 <div class="house-traits">${houseDescriptions[house]}</div>
             `;
-            houseDescription.style.display = 'block';
+            houseDescription.classList.add('active');
         }
 
         // Показать результаты
@@ -665,16 +674,17 @@
                 <div class="house-score ${house.toLowerCase()}" data-house="${house}">
                     <div>
                         <strong>${house}</strong>
-                        <button class="house-info-btn" data-house="${house}">i</button>
+                        <button class="house-info-btn" data-house="${house}" aria-label="Информация о ${house}">i</button>
                     </div>
                     <span class="points">${points} баллов</span>
                 </div>
             `).join('');
 
-            document.querySelectorAll('.house-score, .house-info-btn').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    const house = el.dataset.house || el.closest('.house-score').dataset.house;
-                    showHouseInfo(house);
+            document.querySelectorAll('.house-score, .house-info-btn').forEach(element => {
+                element.addEventListener('click', (event) => {
+                    const house = element.dataset.house || 
+                                 element.closest('.house-score').dataset.house;
+                    showHouseInfo(house, event);
                 });
             });
 
@@ -696,13 +706,13 @@
                 housePoints[house] = 0;
             }
             
-            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
             
             quizContainer.classList.remove('hidden');
             resultsContainer.classList.add('hidden');
             progressBar.style.width = '0%';
             finalResult.classList.remove('floating');
-            houseDescription.style.display = 'none';
+            houseDescription.classList.remove('active');
             showQuestion();
         });
 
