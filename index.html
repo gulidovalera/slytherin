@@ -3,256 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Официальная Викторина Хогвартса | Harry Potter</title>
+    <title>Викторина Хогвартса</title>
     <style>
-        :root {
-            --gryffindor-red: #740001;
-            --gryffindor-gold: #d3a625;
-            --slytherin-green: #1a472a;
-            --slytherin-silver: #5d5d5d;
-            --hufflepuff-yellow: #ffdb00;
-            --hufflepuff-black: #000000;
-            --ravenclaw-blue: #0e1a40;
-            --ravenclaw-bronze: #946b2d;
-            --hogwarts-gray: #2c2c2c;
-        }
-        
         body {
-            font-family: 'Crimson Text', serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            background-image: url('https://www.harrypotterfanzone.com/wp-content/uploads/2015/07/hogwarts-castle.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
-        
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.85);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid var(--gryffindor-gold);
-            margin-bottom: 40px;
-        }
-        
-        .logo {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-        
-        h1 {
-            font-family: 'Harry Potter', sans-serif;
-            color: var(--gryffindor-gold);
-            font-size: 3.5rem;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(211, 166, 37, 0.5);
-        }
-        
-        .subtitle {
-            font-style: italic;
-            color: #aaa;
-            margin-top: 10px;
-        }
-        
-        .quiz-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 800px;
             margin: 0 auto;
-            background-color: rgba(20, 20, 20, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(211, 166, 37, 0.3);
-            border: 1px solid var(--gryffindor-gold);
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        
-        .question {
-            margin-bottom: 30px;
-        }
-        
-        .question-number {
-            color: var(--gryffindor-gold);
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .question-text {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        
-        .options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-        
-        .option {
-            background-color: rgba(30, 30, 30, 0.8);
-            padding: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
-        }
-        
-        .option:hover {
-            background-color: rgba(50, 50, 50, 0.8);
-            border-left: 4px solid var(--gryffindor-gold);
-        }
-        
-        .option.selected {
-            background-color: rgba(116, 0, 1, 0.3);
-            border-left: 4px solid var(--gryffindor-red);
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        
-        button {
-            background-color: var(--gryffindor-red);
-            color: var(--gryffindor-gold);
-            border: none;
-            padding: 12px 25px;
-            font-family: 'Crimson Text', serif;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--gryffindor-gold);
-            color: var(--gryffindor-red);
-        }
-        
-        button:disabled {
-            background-color: #333;
-            color: #666;
-            cursor: not-allowed;
-        }
-        
-        .results-container {
+        h1 {
+            color: #5d3a9b;
             text-align: center;
-            padding: 30px;
         }
-        
-        .house-banner {
-            max-width: 100%;
-            height: auto;
-            margin: 20px 0;
+        .question {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .house-title {
-            font-family: 'Harry Potter', sans-serif;
-            font-size: 3rem;
-            margin: 20px 0;
+        .options {
+            margin-top: 15px;
         }
-        
-        .gryffindor {
-            color: var(--gryffindor-gold);
-            text-shadow: 0 0 10px rgba(211, 166, 37, 0.5);
+        button {
+            background-color: #5d3a9b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
-        
-        .slytherin {
-            color: #aaa;
-            text-shadow: 0 0 10px rgba(170, 170, 170, 0.5);
+        button:hover {
+            background-color: #4a2d7c;
         }
-        
-        .hufflepuff {
-            color: var(--hufflepuff-yellow);
-            text-shadow: 0 0 10px rgba(255, 219, 0, 0.5);
+        .result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .ravenclaw {
-            color: var(--ravenclaw-bronze);
-            text-shadow: 0 0 10px rgba(148, 107, 45, 0.5);
+        .gryffindor { color: #ae0001; }
+        .slytherin { color: #2a623d; }
+        .hufflepuff { color: #ecb939; }
+        .ravenclaw { color: #222f5b; }
+        .muggle { color: #6d6d6d; }
+        .hidden {
+            display: none;
         }
-        
-        .muggle {
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        .option {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        
-        .house-description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin: 20px 0;
-            padding: 0 20px;
+        .option:hover {
+            background-color: #f0f0f0;
         }
-        
-        .points-table {
-            width: 100%;
-            margin: 30px 0;
-            border-collapse: collapse;
-        }
-        
-        .points-table th, .points-table td {
-            padding: 10px;
-            border: 1px solid #333;
-        }
-        
-        .points-table th {
-            background-color: var(--gryffindor-red);
-            color: var(--gryffindor-gold);
-        }
-        
-        .points-table tr:nth-child(even) {
-            background-color: rgba(30, 30, 30, 0.8);
-        }
-        
-        @font-face {
-            font-family: 'Harry Potter';
-            src: url('https://fonts.cdnfonts.com/css/harry-potter') format('woff');
-        }
-        
-        @media (max-width: 768px) {
-            .quiz-container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .house-title {
-                font-size: 2rem;
-            }
+        .selected {
+            background-color: #e0d0ff;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/harry-potter" rel="stylesheet">
 </head>
 <body>
-    <div class="overlay">
-        <header>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Harry_Potter_wordmark.svg/1280px-Harry_Potter_wordmark.svg.png" alt="Harry Potter" class="logo">
-            <h1>РАСПРЕДЕЛЯЮЩАЯ ВИКТОРИНА</h1>
-            <p class="subtitle">Какой факультет достоин тебя?</p>
-        </header>
+    <div id="quiz-container">
+        <h1>Распределяющая Викторина Хогвартса</h1>
+        <p>Отвечайте на вопросы, выбирая вариант ответа. В конце узнаете, к какому факультету вы принадлежите!</p>
         
-        <div class="quiz-container" id="quiz-container">
-            <div id="questions-container"></div>
-            
-            <div class="buttons">
-                <button id="next-btn" disabled>Следующий вопрос</button>
-                <button id="results-btn" class="hidden">Узнать результат</button>
-            </div>
-        </div>
+        <div id="questions-container"></div>
         
-        <div class="results-container hidden" id="results-container">
-            <div id="result-content"></div>
-            <button id="restart-btn">Пройти тест снова</button>
-        </div>
+        <button id="next-btn" class="hidden">Следующий вопрос</button>
+        <button id="results-btn" class="hidden">Показать результаты</button>
+    </div>
+    
+    <div id="results-container" class="hidden">
+        <h2>Результаты:</h2>
+        <div id="houses-scores"></div>
+        <div id="final-result"></div>
+        <div id="house-description"></div>
+        <button id="restart-btn">Пройти тест снова</button>
     </div>
 
     <script>
@@ -324,7 +157,7 @@
                     {"text": "Беру на себя лидерство и вдохновляю других", "house": "Гриффиндор", "points": 2},
                     {"text": "Стараюсь получить максимальную выгоду от сотрудничества", "house": "Слизерин", "points": 3},
                     {"text": "Выполняю свою часть работы добросовестно", "house": "Пуффендуй", "points": 1},
-                    {"text": "Анализирую сильные стороны каждого члена команды", "house": "Когтевран", "points": 4}
+                    {"text": "Анализирую сильные стороны каждого члена команда", "house": "Когтевран", "points": 4}
                 ]
             },
             {
@@ -410,24 +243,17 @@
         ];
 
         const houseDescriptions = {
-            "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых.",
-            "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный.",
-            "Пуффендуй": "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный. Вас любят животные и дети - лучший показатель характера. В жизни вы вероятно отличный друг, родитель или профессионал своего дела. Ваша философия: Тише едешь - дальше будешь.",
-            "Когтевран": "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ. В обычной жизни вы вероятно ученый, писатель или изобретатель. Ваша слабость: иногда слишком много думаете и мало делаете. Ваш принцип: Знание - сила, но мудрость - власть.",
+            "Гриффиндор": "Вы человек действия, который сначала делает, потом думает. Ваше сердце управляет разумом - принципы важнее прагматизма. В критической ситуации все ищут вашей поддержки. Иногда вас считают безрассудным, но именно вы совершаете невозможное. Ваш девиз: Лучше попробовать и пожалеть, чем жалеть, что не попробовал. В обычной жизни вы вероятно спортсмен, активист или защитник слабых",
+            "Слизерин": "Вы стратег, всегда просчитываете несколько ходов вперед. Умеете использовать любую ситуацию себе на пользу. Ваша сильная сторона - холодный расчет, а не эмоции. Вас часто неправильно понимают, принимая за эгоиста. На самом деле вы просто знаете себе цену. В реальной жизни вы бы преуспели в бизнесе, политике или юриспруденции. Ваш секрет: вы вовсе не злой, просто эффективный",
+            "Пуффендуй": "Вы - сама надежность, на вас можно положиться. Цените простые радости и искренние отношения. Ваша сила - в упорстве, вы как скала посреди бури. Может, вы не самый яркий, но точно самый душевный. Вас любят животные и дети - лучший показатель характера. В жизни вы вероятно отличный друг, родитель или профессионал своего дела. Ваша философия: Тише едешь - дальше будешь",
+            "Когтевран": "Ваш главный орган - мозг, вы живете идеями. Часто витаете в облаках, но при этом находите гениальные решения. Вас считают чудаком, но именно к вам идут за советом. Ваша любознательность не знает границ. В обычной жизни вы вероятно ученый, писатель или изобретатель. Ваша слабость: иногда слишком много думаете и мало делаете. Ваш принцип: Знание - сила, но мудрость - власть",
             "Магл": "Вы трезво смотрите на мир без розовых очков. Технологии для вас - естественная среда обитания. Вам чужды магические предрассудки, вы верите в науку. Вас можно назвать реалистом до мозга костей. В критической ситуации первым делом полезете в интернет. Ваши плюсы: гибкость мышления и умение находить простые решения. Ваш девиз: Зачем волшебная палочка, если есть смартфон?"
         };
 
-        const houseBanners = {
-            "Гриффиндор": "https://i.pinimg.com/originals/3a/4e/a7/3a4ea7a5c9d0e6e0b9e3f3b3c3e3b3e3.png",
-            "Слизерин": "https://i.pinimg.com/originals/3a/4e/a7/3a4ea7a5c9d0e6e0b9e3f3b3c3e3b3e3.png",
-            "Пуффендуй": "https://i.pinimg.com/originals/3a/4e/a7/3a4ea7a5c9d0e6e0b9e3f3b3c3e3b3e3.png",
-            "Когтевран": "https://i.pinimg.com/originals/3a/4e/a7/3a4ea7a5c9d0e6e0b9e3f3b3c3e3b3e3.png",
-            "Магл": "https://i.pinimg.com/originals/3a/4e/a7/3a4ea7a5c9d0e6e0b9e3f3b3c3e3b3e3.png"
-        };
-
         // Перемешиваем вопросы и выбираем 10
-        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+        const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
         let currentQuestion = 0;
+        let selectedOptions = [];
         const housePoints = {
             "Гриффиндор": 0,
             "Слизерин": 0,
@@ -442,7 +268,9 @@
         const resultsBtn = document.getElementById('results-btn');
         const quizContainer = document.getElementById('quiz-container');
         const resultsContainer = document.getElementById('results-container');
-        const resultContent = document.getElementById('result-content');
+        const housesScores = document.getElementById('houses-scores');
+        const finalResult = document.getElementById('final-result');
+        const houseDescription = document.getElementById('house-description');
         const restartBtn = document.getElementById('restart-btn');
 
         // Показать текущий вопрос
@@ -450,8 +278,8 @@
             const question = shuffledQuestions[currentQuestion];
             questionsContainer.innerHTML = `
                 <div class="question">
-                    <div class="question-number">Вопрос ${currentQuestion + 1} из ${shuffledQuestions.length}</div>
-                    <div class="question-text">${question.question}</div>
+                    <h3>Вопрос ${currentQuestion + 1} из ${shuffledQuestions.length}</h3>
+                    <p>${question.question}</p>
                     <div class="options" id="options-container"></div>
                 </div>
             `;
@@ -468,7 +296,6 @@
                     document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
                     optionElement.classList.add('selected');
                     document.getElementById(`option-${index}`).checked = true;
-                    nextBtn.disabled = false;
                 });
                 optionsContainer.appendChild(optionElement);
             });
@@ -493,12 +320,12 @@
             const optionIndex = parseInt(selectedOption.value);
             const option = shuffledQuestions[currentQuestion].options[optionIndex];
             
-            // Добавляем очки
+            // Сохраняем выбранный вариант
+            selectedOptions.push(option);
             housePoints[option.house] += option.points;
             
             // Переходим к следующему вопросу
             currentQuestion++;
-            nextBtn.disabled = true;
             showQuestion();
         });
 
@@ -513,7 +340,8 @@
             const optionIndex = parseInt(selectedOption.value);
             const option = shuffledQuestions[currentQuestion].options[optionIndex];
             
-            // Добавляем очки за последний вопрос
+            // Сохраняем последний выбранный вариант
+            selectedOptions.push(option);
             housePoints[option.house] += option.points;
             
             // Показываем результаты
@@ -529,37 +357,28 @@
             const sortedHouses = Object.entries(housePoints).sort((a, b) => b[1] - a[1]);
             const winningHouse = sortedHouses[0][0];
 
-            // Создаем HTML для результатов
-            let resultsHTML = `
-                <h2 class="house-title ${winningHouse.toLowerCase()}">${winningHouse.toUpperCase()}</h2>
-                <img src="${houseBanners[winningHouse]}" alt="${winningHouse}" class="house-banner">
-                <p class="house-description ${winningHouse.toLowerCase()}">${houseDescriptions[winningHouse]}</p>
-                
-                <h3>Результаты по всем факультетам:</h3>
-                <table class="points-table">
-                    <tr>
-                        <th>Факультет</th>
-                        <th>Баллы</th>
-                    </tr>
+            // Выводим баллы
+            housesScores.innerHTML = sortedHouses.map(([house, points]) => 
+                `<p><span class="${house.toLowerCase()}"><strong>${house}:</strong></span> ${points} баллов</p>`
+            ).join('');
+
+            // Выводим результат
+            finalResult.innerHTML = `
+                <h3 class="${winningHouse.toLowerCase()}">Распределяющая Шляпа отправляет вас в... ${winningHouse.toUpperCase()}!</h3>
+                <p class="${winningHouse.toLowerCase()}">*магические искры*</p>
             `;
 
-            sortedHouses.forEach(([house, points]) => {
-                resultsHTML += `
-                    <tr>
-                        <td class="${house.toLowerCase()}">${house}</td>
-                        <td>${points}</td>
-                    </tr>
-                `;
-            });
-
-            resultsHTML += `</table>`;
-            resultContent.innerHTML = resultsHTML;
+            // Выводим описание факультета
+            houseDescription.innerHTML = `
+                <p>${houseDescriptions[winningHouse]}</p>
+            `;
         }
 
         // Обработчик кнопки "Пройти тест снова"
         restartBtn.addEventListener('click', () => {
             // Сбрасываем состояние
             currentQuestion = 0;
+            selectedOptions = [];
             for (const house in housePoints) {
                 housePoints[house] = 0;
             }
@@ -570,7 +389,6 @@
             // Показываем первый вопрос
             quizContainer.classList.remove('hidden');
             resultsContainer.classList.add('hidden');
-            nextBtn.disabled = true;
             showQuestion();
         });
 
